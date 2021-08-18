@@ -10,20 +10,20 @@ boxes = [
     {
         :name => "worker1",
         :eth1 => "192.168.205.11",
-        :mem => "2048",
+        :mem => "1024",
         :cpu => "1"
     },
     {
         :name => "worker2",
         :eth1 => "192.168.205.12",
-        :mem => "2048",
+        :mem => "1024",
         :cpu => "1"
     }
 
 ]
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "generic/ubuntu1804"
+  config.vm.box = "generic/ubuntu2004"
 
   boxes.each do |opts|
       config.vm.define opts[:name] do |config|
@@ -38,21 +38,22 @@ Vagrant.configure(2) do |config|
           v.customize ["modifyvm", :id, "--memory", opts[:mem]]
           v.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
         end
-
         config.vm.network :private_network, ip: opts[:eth1]
       end
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt install apt-transport-https ca-certificates curl software-properties-common bind9
-    sudo echo "nameserver  8.8.8.8" > /etc/resolv.conf
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    sudo systemctl disable systemd-resolved
+    sudo rm -rf /etc/run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+    sudo echo "nameserver  8.8.8.8" > /etc/resolv.conf
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" >> ~/kubernetes.list
     sudo mv ~/kubernetes.list /etc/apt/sources.list.d
     sudo apt update
+    echo "KUBELET_EXTRA_ARGS=--node-ip="$(ip addr show eth1  | awk '$1 == "inet" { print $2 }' | cut -d/ -f1) | sudo tee /etc/default/kubelet
     sudo apt install -y docker-ce kubelet kubeadm kubectl kubernetes-cni
     sudo swapoff -a
   SHELL
