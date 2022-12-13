@@ -44,9 +44,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
-#    sudo systemctl disable systemd-resolved
-#    sudo rm -rf /etc/run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-#    sudo echo "nameserver  8.8.8.8" > /etc/resolv.conf
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
