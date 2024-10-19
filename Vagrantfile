@@ -4,8 +4,8 @@ boxes = [
     {
         :name => "Manager",
         :eth1 => "192.168.205.10",
-        :mem => "1024",
-        :cpu => "1"
+        :mem => "2048",
+        :cpu => "2"
     },
     {
         :name => "worker1",
@@ -43,7 +43,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common git
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     sudo apt update
