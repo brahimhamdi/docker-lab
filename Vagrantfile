@@ -48,5 +48,6 @@ Vagrant.configure(2) do |config|
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     sudo apt update
     sudo apt install -y docker-ce
+    sudo usermod -aG docker ${USER}
   SHELL
 end
