@@ -32,6 +32,8 @@ Vagrant.configure(2) do |config|
         config.vm.provider "vmware_fusion" do |v|
           v.vmx["memsize"] = opts[:mem]
           v.vmx["numvcpus"] = opts[:cpu]
+          v.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+          v.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
         end
 
         config.vm.provider "virtualbox" do |v|
