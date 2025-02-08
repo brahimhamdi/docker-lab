@@ -51,6 +51,6 @@ Vagrant.configure(2) do |config|
     sudo apt update
     sudo apt install -y docker-ce
     sudo apt install -y docker-compose
-    sudo usermod -aG docker ${USER}
+    sudo usermod -aG docker vagrant
   SHELL
 end
