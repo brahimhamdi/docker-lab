@@ -47,11 +47,15 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt update
     sudo apt install -y apt-transport-https ca-certificates curl software-properties-common git gcc tree openjdk-17-jdk maven mariadb-client
+
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
+    wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+    echo "deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+
     sudo apt update
-    sudo apt install -y docker-ce
-    sudo apt install -y docker-compose
+    sudo apt install -y docker-ce docker-compose trivy
     sudo usermod -aG docker vagrant
   SHELL
 end
