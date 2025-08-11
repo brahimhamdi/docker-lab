@@ -46,7 +46,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt update
-    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common git gcc tree openjdk-17-jdk
+    sudo apt install -y apt-transport-https ca-certificates curl software-properties-common git gcc tree openjdk-17-jdk maven
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     sudo apt update
