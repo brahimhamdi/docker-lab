@@ -45,6 +45,11 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
+    echo 'colorscheme ron' >> ~/.vimrc
+    echo 'set tabstop=2' >> ~/.vimrc
+    echo 'set shiftwidth=2' >> ~/.vimrc
+    echo 'set expandtab' >> ~/.vimrc
+
     sudo apt update
     sudo apt install -y apt-transport-https ca-certificates curl software-properties-common git gcc tree openjdk-17-jdk maven mariadb-client
 
